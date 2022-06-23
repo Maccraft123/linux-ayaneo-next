@@ -1,4 +1,7 @@
 #
+# Maintainer: Maya Matuszczyk <maccraft123mc@gmail.com>
+#
+# Based on the linux-mainline package by:
 # Maintainer: Mikael Eriksson <mikael_eriksson@miffe.org>
 #
 # Based on the linux package by:
@@ -6,7 +9,7 @@
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 # Maintainer: Thomas Baechler <thomas@archlinux.org>
 
-pkgbase=linux-mainline               # Build stock -ARCH kernel
+pkgbase=linux-mainline-aya-neo-next               # Build stock -ARCH kernel
 #pkgbase=linux-custom       # Build kernel with a different name
 _tag=v5.19-rc3
 pkgver=5.19rc3
@@ -25,6 +28,8 @@ _srcname=linux-mainline
 source=(
   "$_srcname::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git#tag=$_tag"
   config         # the main kernel config file
+  0001-input-goodix-call-acpi-device-fix-up-power.patch
+  0002-ayaneo-next-orientation-quirk.patch
 )
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
@@ -32,7 +37,9 @@ validpgpkeys=(
   'A2FF3A36AAA56654109064AB19802F8B0D70FC30'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            '5e34f17f45b3623bd8350b4d2c23ad7525b75c327cc49ec3dc37e3ee168d2f46')
+            '5e34f17f45b3623bd8350b4d2c23ad7525b75c327cc49ec3dc37e3ee168d2f46'
+            'edd7055b1cecf5e5c740240f94d4f2cd025768d8a3fe449d364de269eee3a64a'
+            '073fcc853c3190c2056fdad9cfa5df3f3c1698e726f5a5bddc5a4db8ac934f37')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase

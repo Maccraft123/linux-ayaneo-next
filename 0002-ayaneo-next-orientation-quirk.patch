@@ -1,0 +1,55 @@
+From patchwork Sun Jun 19 11:19:52 2022
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: [v2] drm: panel-orientation-quirks: Add quirk for Aya Neo Next
+From: Maccraft123 <maccraft123mc@gmail.com>
+X-Patchwork-Id: 490143
+Message-Id: <20220619111952.8487-1-maccraft123mc@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maya Matuszczyk <maccraft123mc@gmail.com>
+Date: Sun, 19 Jun 2022 13:19:52 +0200
+
+From: Maya Matuszczyk <maccraft123mc@gmail.com>
+
+The device is identified by "NEXT" in board name, however there are
+different versions of it, "Next Advance" and "Next Pro", that have
+different DMI board names.
+Due to a production error a batch or two have their board names prefixed
+by "AYANEO", this makes it 6 different DMI board names. To save some
+space in final kernel image DMI_MATCH is used instead of
+DMI_EXACT_MATCH.
+
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes from v1:
+- Changed it to use only one entry, with less exact match, as requested
+  by Hans de Goede
+
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 4e853acfd1e8..df87ba99a87c 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -152,6 +152,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYA NEO 2021"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* AYA NEO NEXT */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
++		  DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* Chuwi HiBook (CWI514) */
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
